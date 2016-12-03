@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf, action, linkTo } from '@kadira/storybook';
 import {RepositoryList} from '../client/RepositoryList';
 import {RepositoryOverview} from '../client/RepositoryOverview';
+import {NewRepositoryForm} from '../client/NewRepositoryForm';
 import '@blueprintjs/core/dist/blueprint.css';
 
 storiesOf('RepositoryList', module)
@@ -23,5 +24,12 @@ storiesOf('Repository Overview', module)
 		};
 		return (
 			<RepositoryOverview repository={repository}/>
+		);
+	});
+
+storiesOf('New Repository Form', module)
+	.add('default', () => {
+		return (
+			<NewRepositoryForm />
 		);
 	});
