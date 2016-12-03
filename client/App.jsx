@@ -14,11 +14,11 @@ export default class App extends Component {
 			<div className="container">
 				<nav className="pt-navbar pt-dark">
 					<div className="pt-navbar-group pt-align-left">
-						<div className="pt-navbar-heading">Code Query</div>
+						<div className="pt-navbar-heading">
+							<a onClick={this._onHomeClick} style={{color: 'white', textDecoration: 'none'}}>Code Query</a>
+						</div>
 					</div>
-					<div className="pt-navbar-group pt-align-right">
-						{this.props.navbar}
-					</div>
+					{this.props.navbar}
 				</nav>
 				<div className="content">
 					{this.props.content}
@@ -26,5 +26,9 @@ export default class App extends Component {
 			</div>
 		);
 	}
+
+	_onHomeClick = () => {
+		browserHistory.push('/');
+	};
 
 }

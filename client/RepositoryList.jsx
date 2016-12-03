@@ -59,13 +59,15 @@ export const RepositoryListContainer = createContainer(() => {
 	};
 }, RepositoryList);
 
-export const RepositoryNavbarButtons = () => {
+export const RepositoryListNavbarButtons = () => {
 	function addRepository(){
 		Repositories.insert({
 			name: 'Repo ' + new Date()
 		});
 	}
 	return (
-		<Button iconName="pt-icon-plus" text="Add Repository" onClick={addRepository} />
+		<div className="pt-navbar-group pt-align-right">
+			<Button iconName="pt-icon-plus" text="Add Repository" onClick={addRepository} />
+		</div>
 	);
 };

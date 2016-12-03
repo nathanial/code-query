@@ -3,10 +3,10 @@ import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import App from './App.jsx';
-import RepositoryOverview from './RepositoryOverview';
+import {RepositoryOverview, RepositoryOverviewNavbar} from './RepositoryOverview';
 import {
 	RepositoryListContainer,
-	RepositoryNavbarButtons
+	RepositoryListNavbarButtons
 } from './RepositoryList';
 import '@blueprintjs/core/dist/blueprint.css';
 
@@ -14,8 +14,8 @@ Meteor.startup(() => {
   render(
 		<Router history={browserHistory}>
 			<Route path="/" component={App}>
-				<IndexRoute components={{content: RepositoryListContainer, navbar: RepositoryNavbarButtons}} />
-				<Route path="repos/:id" components={{content: RepositoryOverview}}></Route>
+				<IndexRoute components={{content: RepositoryListContainer, navbar: RepositoryListNavbarButtons}} />
+				<Route path="repos/:id" components={{content: RepositoryOverview, navbar: RepositoryOverviewNavbar}}></Route>
 			</Route>
 		</Router>
 		, document.getElementById('render-target'));
