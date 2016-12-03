@@ -53,9 +53,19 @@ class RepositoryList extends React.Component {
 	}
 }
 
-
-export default createContainer(() => {
+export const RepositoryListContainer = createContainer(() => {
 	return {
 		repositories: Repositories.find({}).fetch()
 	};
 }, RepositoryList);
+
+export const RepositoryNavbarButtons = () => {
+	function addRepository(){
+		Repositories.insert({
+			name: 'Repo ' + new Date()
+		});
+	}
+	return (
+		<Button iconName="pt-icon-plus" text="Add Repository" onClick={addRepository} />
+	);
+};

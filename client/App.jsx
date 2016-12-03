@@ -17,22 +17,14 @@ export default class App extends Component {
 						<div className="pt-navbar-heading">Code Query</div>
 					</div>
 					<div className="pt-navbar-group pt-align-right">
-						<Button iconName="pt-icon-plus" text="Add Repository" onClick={() => this._onAddRepository()} />
+						{this.props.navbar}
 					</div>
 				</nav>
 				<div className="content">
-					{this.props.children}
+					{this.props.content}
 				</div>
 			</div>
 		);
 	}
-
-
-	_onAddRepository(){
-		Repositories.insert({
-			name: "Repo " + new Date()
-		});
-	}
-
 
 }
