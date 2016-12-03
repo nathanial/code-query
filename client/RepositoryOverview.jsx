@@ -1,8 +1,9 @@
 import React from 'react';
-import {Button} from '@blueprintjs/core';
+import {Button, Dialog, Intent} from '@blueprintjs/core';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Repositories} from '../api/repositories';
 import _ from 'lodash';
+import { browserHistory } from 'react-router'
 
 class RepositoryOverview extends React.Component {
 
@@ -38,6 +39,10 @@ class NavbarContent extends React.Component {
 		repository: React.PropTypes.object
 	}
 
+	state = {
+		showDeleteDialog: false
+	}
+
 	render(){
 		const overviewStyle = {
 			position: 'relative',
@@ -54,10 +59,44 @@ class NavbarContent extends React.Component {
 					<div className="pt-navbar-heading">Repository Overview - {name}</div>
 				</div>
 				<div className="pt-navbar-group pt-align-right">
-					<Button iconName="trash" className="delete-btn pt-intent-danger" text="Delete" />
+					<Button style={{marginRight:10}} onClick={this._goBack}>Back</Button>
+					<Button iconName="trash" className="delete-btn pt-intent-danger" text="Delete" onClick={this._onShowDeleteDialog}/>
 				</div>
+
+				<Dialog iconName="trash" isOpen={this.state.showDeleteDialog} title="Confirm Delete" onClose={this._closeDeleteDialog}>
+					<div className="pt-dialog-body">
+							 Are you sure you want to delete this repository?
+					</div>
+					<div className="pt-dialog-footer">
+						<div className="pt-dialog-footer-actions">
+							<Button text="Cancel" onClick={this._closeDeleteDialog} />
+							<Button intent={Intent.DANGER} onClick={this._onDelete} text="Delete Repository" />
+						</div>
+					</div>
+				</Dialog>
 			</div>
 		);
+	}
+
+	_onShowDeleteDialog = () => {
+		this.setState({
+			showDeleteDialog: true
+		});
+	};
+
+	_closeDeleteDialog = () => {
+		this.setState({
+			showDeleteDialog: false
+		});
+	};
+
+	_onDelete = () => {
+		Repositories.remove(this.props.repository._id);
+		browserHistory.push('/');
+	};
+
+	_goBack = () => {
+		browserHistory.push('/');
 	}
 }
 
