@@ -1,13 +1,13 @@
 import React from 'react';
+import _ from 'lodash';
 import {browserHistory} from 'react-router';
-import {createContainer} from 'meteor/react-meteor-data';
-import {Repositories} from '../api/repositories';
 import {Button, Intent, Dialog} from '@blueprintjs/core';
 
-class RepositoryList extends React.Component {
+export class RepositoryList extends React.Component {
 
 	static propTypes = {
-		repositories: React.PropTypes.array
+		repositories: React.PropTypes.array,
+		onNavigateToRepo: React.PropTypes.func
 	}
 
 	state = {
@@ -29,35 +29,16 @@ class RepositoryList extends React.Component {
 						);
 					})}
 				</ul>
-				<Dialog
-						iconName="inbox"
-						isOpen={this.state.dialogIsOpen}
-						onClose={this.toggleDialog}
-						title="Dialog Header">
-						<div className="pt-dialog-body">
-								Some content
-						</div>
-						<div className="pt-dialog-footer">
-								<div className="pt-dialog-footer-actions">
-										<Button text="Secondary" />
-										<Button intent={Intent.PRIMARY} onClick={this.toggleDialog} text="Primary" />
-								</div>
-						</div>
-				</Dialog>
 			</div>
 		);
 	}
 
 	_onNavigateToRepository(repository){
-		browserHistory.push(`/repos/${repository._id}`);
+		if(this.props.onNavigateToRepo){
+			this.props.onNavigateToRepo(repository);
+		}
 	}
 }
-
-export const RepositoryListContainer = createContainer(() => {
-	return {
-		repositories: Repositories.find({}).fetch()
-	};
-}, RepositoryList);
 
 export const RepositoryListNavbarButtons = () => {
 	function addRepository(){

@@ -1,11 +1,8 @@
 import React from 'react';
 import {Button, Dialog, Intent} from '@blueprintjs/core';
-import {createContainer} from 'meteor/react-meteor-data';
-import {Repositories} from '../api/repositories';
 import _ from 'lodash';
-import { browserHistory } from 'react-router'
 
-class RepositoryOverview extends React.Component {
+export class RepositoryOverview extends React.Component {
 
 	static propTypes = {
 		id: React.PropTypes.number
@@ -27,16 +24,12 @@ class RepositoryOverview extends React.Component {
 	}
 }
 
-export const RepositoryOverviewContainer = createContainer((props) => {
-	return {
-		repository: Repositories.findOne({_id: props.params.id})
-	};
-}, RepositoryOverview);
-
-class NavbarContent extends React.Component {
+export class RepositoryOverviewNavbar extends React.Component {
 
 	static propTypes = {
-		repository: React.PropTypes.object
+		repository: React.PropTypes.object,
+		onDelete: React.PropTypes.func.isRequired,
+		onGoBack: React.PropTypes.func.isRequired
 	}
 
 	state = {
@@ -91,17 +84,10 @@ class NavbarContent extends React.Component {
 	};
 
 	_onDelete = () => {
-		Repositories.remove(this.props.repository._id);
-		browserHistory.push('/');
+		this.props.onDelete(this.props.repository);
 	};
 
 	_goBack = () => {
-		browserHistory.push('/');
+		this.props.onGoBack();
 	}
 }
-
-export const RepositoryOverviewNavbar = createContainer((props) => {
-	return {
-		repository: Repositories.findOne({_id: props.params.id})
-	};
-}, NavbarContent);
