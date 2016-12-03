@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import {Button, Tree, Tooltip} from '@blueprintjs/core';
 import _ from 'lodash';
 import { browserHistory } from 'react-router'
+import { Repositories } from '../api/repositories';
+import {createContainer} from 'meteor/react-meteor-data';
 
 let id = 1;
 
 export default class App extends Component {
-
-	state = {
-		repositories: []
-	}
 
 	render() {
 		return (
@@ -23,9 +21,7 @@ export default class App extends Component {
 					</div>
 				</nav>
 				<div className="content">
-					{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
-						repositories: this.state.repositories
-					}))}
+					{this.props.children}
 				</div>
 			</div>
 		);
@@ -33,11 +29,8 @@ export default class App extends Component {
 
 
 	_onAddRepository(){
-		this.setState({
-			repositories: this.state.repositories.concat([{
-				id: id++,
-				name: "Repo " + Math.random()
-			}])
+		Repositories.insert({
+			name: "Repo " + new Date()
 		});
 	}
 
