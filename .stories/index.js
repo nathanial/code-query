@@ -3,6 +3,7 @@ import { storiesOf, action, linkTo } from '@kadira/storybook';
 import {RepositoryList} from '../client/RepositoryList';
 import {RepositoryOverview} from '../client/RepositoryOverview';
 import {NewRepositoryForm} from '../client/NewRepositoryForm';
+import {RepositoryDownloadProgressPage} from '../client/RepositoryDownloadProgressPage';
 import '@blueprintjs/core/dist/blueprint.css';
 
 storiesOf('RepositoryList', module)
@@ -31,5 +32,12 @@ storiesOf('New Repository Form', module)
 	.add('default', () => {
 		return (
 			<NewRepositoryForm onCreateRepo={action('Create Repo')} onCancel={action('Cancel')} />
+		);
+	});
+
+storiesOf('Repository Download Progress Page', module)
+	.add('default', () => {
+		return (
+			<RepositoryDownloadProgressPage repository={{name: 'Code Query'}} progress={50} />
 		);
 	});
