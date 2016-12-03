@@ -7,7 +7,7 @@ export class RepositoryList extends React.Component {
 
 	static propTypes = {
 		repositories: React.PropTypes.array,
-		onNavigateToRepo: React.PropTypes.func
+		onNavigateToRepo: React.PropTypes.func.isRequired
 	}
 
 	state = {
@@ -22,7 +22,7 @@ export class RepositoryList extends React.Component {
 						return (
 							<li className="repository" key={i} onClick={() => this._onNavigateToRepository(repository)}>
 								<div className="pt-card pt-elevation-0 pt-interactive">
-									<h5><a href="#">{repository.name}</a></h5>
+									<h5><a href="#">{repository.url}</a></h5>
 									<p>Code repository</p>
 								</div>
 							</li>

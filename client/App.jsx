@@ -20,12 +20,20 @@ export default class App extends React.Component {
 							<a onClick={this._onHomeClick} style={{color: 'white', textDecoration: 'none'}}>Code Query</a>
 						</div>
 					</div>
-					{this.props.navbar}
+					{React.Children.map(this.props.navbar, (child) => {
+						return React.cloneElement(child, {
+								appState: this.props.appState
+						});
+					})}
 				</nav>
 				<div className="content">
-					{this.props.content}
+					{React.Children.map(this.props.content, (child) => {
+						return React.cloneElement(child, {
+								appState: this.props.appState
+						});
+					})}
 				</div>
-				<AllActionDialogs />
+				<AllActionDialogs appState={this.props.appState}/>
 			</div>
 		);
 	}
