@@ -42,11 +42,21 @@ const RepositoryOverviewNavbarContainer = createContainer((props) => {
 	};
 }, RepositoryOverviewNavbar);
 
+const RepositoryListNavbarButtonsContainer = () => {
+	function addRepository(){
+		Repositories.insert({name: 'New Repo'});
+	}
+
+	return (
+		<RepositoryListNavbarButtons onAddRepository={addRepository} />
+	);
+};
+
 Meteor.startup(() => {
   render(
 		<Router history={browserHistory}>
 			<Route path="/" component={App}>
-				<IndexRoute components={{content: RepositoryListContainer, navbar: RepositoryListNavbarButtons}} />
+				<IndexRoute components={{content: RepositoryListContainer, navbar: RepositoryListNavbarButtonsContainer}} />
 				<Route path="repos/:id" components={{content: RepositoryOverviewContainer, navbar: RepositoryOverviewNavbarContainer}}></Route>
 			</Route>
 		</Router>

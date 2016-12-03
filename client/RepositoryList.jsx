@@ -40,15 +40,20 @@ export class RepositoryList extends React.Component {
 	}
 }
 
-export const RepositoryListNavbarButtons = () => {
-	function addRepository(){
-		Repositories.insert({
-			name: 'Repo ' + new Date()
-		});
+export class RepositoryListNavbarButtons extends React.Component {
+	static propTypes = {
+		onAddRepository: React.PropTypes.func.isRequired
+	};
+
+	render(){
+		return (
+			<div className="pt-navbar-group pt-align-right">
+				<Button iconName="pt-icon-plus" text="Add Repository" onClick={this._onAddRepository} />
+			</div>
+		);
 	}
-	return (
-		<div className="pt-navbar-group pt-align-right">
-			<Button iconName="pt-icon-plus" text="Add Repository" onClick={addRepository} />
-		</div>
-	);
-};
+
+	_onAddRepository = () => {
+		this.props.onAddRepository();
+	}
+}
