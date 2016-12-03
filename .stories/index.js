@@ -30,6 +30,6 @@ storiesOf('Repository Overview', module)
 storiesOf('New Repository Form', module)
 	.add('default', () => {
 		return (
-			<NewRepositoryForm />
+			<NewRepositoryForm onCreateRepo={action('Create Repo')} onCancel={action('Cancel')} />
 		);
 	});
