@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Button, Tree, Tooltip} from '@blueprintjs/core';
 import _ from 'lodash';
 import { browserHistory } from 'react-router'
 import { Repositories } from '../api/repositories';
 import {createContainer} from 'meteor/react-meteor-data';
+import {State, Actions, Component, Render} from 'jumpsuit'
+import AllActionDialogs from './dialogs/AllActionDialogs';
 
 let id = 1;
 
-export default class App extends Component {
+export default class App extends React.Component {
 
 	render() {
 		return (
@@ -23,12 +25,13 @@ export default class App extends Component {
 				<div className="content">
 					{this.props.content}
 				</div>
+				<AllActionDialogs />
 			</div>
 		);
 	}
 
 	_onHomeClick = () => {
-		browserHistory.push('/');
+		Actions.gotoHome();
 	};
 
 }

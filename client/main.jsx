@@ -1,3 +1,4 @@
+import {State, Actions, Component, Render} from 'jumpsuit'
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
@@ -12,13 +13,12 @@ import {
 import '@blueprintjs/core/dist/blueprint.css';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Repositories}  from '../api/repositories';
+import {AppState} from './appState';
 
 const RepositoryListContainer = createContainer(() => {
 	return {
 		repositories: Repositories.find({}).fetch(),
-		onNavigateToRepo: (repo) => {
-			browserHistory.push(`/repos/${repo._id}`)
-		}
+		onNavigateToRepo: Actions.navigateToRepo
 	};
 }, RepositoryList);
 
@@ -32,33 +32,46 @@ const RepositoryOverviewContainer = createContainer((props) => {
 const RepositoryOverviewNavbarContainer = createContainer((props) => {
 	return {
 		repository: Repositories.findOne({_id: props.params.id}),
-		onGoBack: () => {
-			browserHistory.push('/')
-		},
-		onDelete: (repo) => {
-			Repositories.remove(repo._id);
-			browserHistory.push('/')
-		}
+		onGoBack: Actions.goBackToRepositoryList,
+		onDelete: Actions.removeRepository
 	};
 }, RepositoryOverviewNavbar);
 
 const RepositoryListNavbarButtonsContainer = () => {
-	function addRepository(){
-		Repositories.insert({name: 'New Repo'});
-	}
-
 	return (
-		<RepositoryListNavbarButtons onAddRepository={addRepository} />
+		<RepositoryListNavbarButtons onAddRepository={Actions.addRepository} />
 	);
 };
 
+const state = {
+	app: AppState
+};
+
+const routes = (
+	<Route path="/" component={App}>
+		<IndexRoute components={{content: RepositoryListContainer, navbar: RepositoryListNavbarButtonsContainer}} />
+		<Route path="repos/:id" components={{content: RepositoryOverviewContainer, navbar: RepositoryOverviewNavbarContainer}}></Route>
+	</Route>
+);
+
+const RootComponent = Component({
+
+	render(){
+		const createElement = (Element, props) => {
+			return <Element {...props} appState={this.props.app} />;
+		};
+		return (
+			<Router history={browserHistory} createElement={createElement} routes={routes}>
+			</Router>
+		);
+	}
+
+}, (state) => {
+	return {
+		app: state.app
+	};
+})
+
 Meteor.startup(() => {
-  render(
-		<Router history={browserHistory}>
-			<Route path="/" component={App}>
-				<IndexRoute components={{content: RepositoryListContainer, navbar: RepositoryListNavbarButtonsContainer}} />
-				<Route path="repos/:id" components={{content: RepositoryOverviewContainer, navbar: RepositoryOverviewNavbarContainer}}></Route>
-			</Route>
-		</Router>
-		, document.getElementById('render-target'));
+	Render(state, <RootComponent />);
 });
