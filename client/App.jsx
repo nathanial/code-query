@@ -4,11 +4,13 @@ import _ from 'lodash';
 import { browserHistory } from 'react-router'
 import { Repositories } from '../api/repositories';
 import {createContainer} from 'meteor/react-meteor-data';
-import {State, Actions, Component, Render} from 'jumpsuit'
 import AllActionDialogs from './dialogs/AllActionDialogs';
+import {gotoRepositoryList} from './appState';
+import {observer} from "mobx-react";
 
 let id = 1;
 
+@observer
 export default class App extends React.Component {
 
 	render() {
@@ -39,7 +41,7 @@ export default class App extends React.Component {
 	}
 
 	_onHomeClick = () => {
-		Actions.gotoHome();
+		gotoRepositoryList();
 	};
 
 }

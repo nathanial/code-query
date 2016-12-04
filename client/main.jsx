@@ -1,4 +1,3 @@
-import {State, Actions, Component, Render} from 'jumpsuit'
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
@@ -13,12 +12,19 @@ import {
 import '@blueprintjs/core/dist/blueprint.css';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Repositories}  from '../api/repositories';
-import {AppState} from './appState';
+import {
+	appState,
+	gotoRepositoryList,
+	removeRepository,
+	navigateToRepo,
+	addRepository
+} from './appState';
+import {observer} from "mobx-react";
 
 const RepositoryListContainer = createContainer(() => {
 	return {
 		repositories: Repositories.find({}).fetch(),
-		onNavigateToRepo: Actions.navigateToRepo
+		onNavigateToRepo: navigateToRepo
 	};
 }, RepositoryList);
 
@@ -32,19 +38,15 @@ const RepositoryOverviewContainer = createContainer((props) => {
 const RepositoryOverviewNavbarContainer = createContainer((props) => {
 	return {
 		repository: Repositories.findOne({_id: props.params.id}),
-		onGoBack: Actions.goBackToRepositoryList,
-		onDelete: Actions.removeRepository
+		onGoBack: gotoRepositoryList,
+		onDelete: removeRepository
 	};
 }, RepositoryOverviewNavbar);
 
 const RepositoryListNavbarButtonsContainer = () => {
 	return (
-		<RepositoryListNavbarButtons onAddRepository={Actions.addRepository} />
+		<RepositoryListNavbarButtons onAddRepository={addRepository} />
 	);
-};
-
-const state = {
-	app: AppState
 };
 
 const routes = (
@@ -54,24 +56,20 @@ const routes = (
 	</Route>
 );
 
-const RootComponent = Component({
 
+@observer
+class RootComponent extends React.Component {
 	render(){
 		const createElement = (Element, props) => {
-			return <Element {...props} appState={this.props.app} />;
+			return <Element {...props} appState={this.props.appState} />;
 		};
 		return (
 			<Router history={browserHistory} createElement={createElement} routes={routes}>
 			</Router>
 		);
 	}
-
-}, (state) => {
-	return {
-		app: state.app
-	};
-})
+}
 
 Meteor.startup(() => {
-	Render(state, <RootComponent />);
+	render(<RootComponent appState={appState} />, document.getElementById('app'));
 });

@@ -1,9 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
 import {Button, Intent, Dialog} from '@blueprintjs/core';
-import {State, Actions, Component, Render} from 'jumpsuit'
 import {NewRepositoryForm} from '../NewRepositoryForm';
+import {
+	createRepo,
+	hideNewRepositoryDialog
+} from '../appState';
+import {observer} from "mobx-react";
 
+@observer
 export default class AllActionDialogs extends React.Component {
 
 	static propTypes = {
@@ -11,6 +16,7 @@ export default class AllActionDialogs extends React.Component {
 	}
 
 	render(){
+		console.log("App State", this.props.appState);
 		const showNewRepositoryDialog = _.get(this.props.appState, 'showNewRepositoryDialog', false);
 		return (
 			<div>
@@ -19,7 +25,7 @@ export default class AllActionDialogs extends React.Component {
 								onClose={this.toggleDialog}
 								title="Dialog Header">
 						<div className="pt-dialog-body">
-							<NewRepositoryForm onCreateRepo={Actions.createRepo} onCancel={Actions.hideNewRepositoryDialog} />
+							<NewRepositoryForm onCreateRepo={createRepo} onCancel={hideNewRepositoryDialog} />
 						</div>
 						<div className="pt-dialog-footer">
 								<div className="pt-dialog-footer-actions">

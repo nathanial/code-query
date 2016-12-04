@@ -1,29 +1,33 @@
 import {Repositories} from '../api/repositories';
-import {State, Actions, Component, Render} from 'jumpsuit'
 import {browserHistory} from 'react-router';
+import {action, observable, useStrict} from 'mobx';
 
-export const AppState = State({
-	initial: {
-		showNewRepositoryDialog: false
-	},
-	addRepository(){
-		return {
-			showNewRepositoryDialog: true
-		};
-	},
-	hideNewRepositoryDialog(){
-		return {
-			showNewRepositoryDialog: false
-		};
-	},
-	createRepo(state, repositoryInfo){
-		Repositories.insert(repositoryInfo);
-		return _.extend({}, state, {
-			showNewRepositoryDialog: false
-		});
-	},
-	navigateToRepo(state, repository){
-		browserHistory.push(`/repos/${repository._id}`);
-		return _.extend({}, state);
-	}
+export const appState = observable({
+	showNewRepositoryDialog: false
+});
+
+export const addRepository = action(() => {
+	console.log("BONGO DRUM");
+	appState.showNewRepositoryDialog = true;
+});
+
+export const hideNewRepositoryDialog = action(() => {
+	appState.showNewRepositoryDialog = false;
+});
+
+export const createRepo = action((repositoryInfo) => {
+	Repositories.insert(repositoryInfo);
+	appState.showNewRepositoryDialog = false;
+});
+
+export const navigateToRepo = action((repository) => {
+	browserHistory.push(`/repos/${repository._id}`);
+});
+
+export const removeRepository = action((repository) => {
+	Repositories.remove(repository._id);
+});
+
+export const gotoRepositoryList = action(() => {
+	browserHistory.push('/');
 });

@@ -13,7 +13,7 @@ export class RepositoryOverview extends React.Component {
 	};
 
 	render(){
-		const name = _.get(this.props, 'repository.name');
+		const name = _.get(this.props, 'repository.url');
 		return (
 			<div className="repository-overview">
 				<div className="pt-card" style={this.overviewStyle}>
