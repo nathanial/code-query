@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import {Button, Intent, Dialog} from '@blueprintjs/core';
-import {NewRepositoryForm} from '../NewRepositoryForm';
+import {RepositoryForm} from '../RepositoryForm';
 import {
 	createRepo,
 	hideNewRepositoryDialog
@@ -25,7 +25,7 @@ export default class AllActionDialogs extends React.Component {
 								onClose={this.toggleDialog}
 								title="Dialog Header">
 						<div className="pt-dialog-body">
-							<NewRepositoryForm onCreateRepo={createRepo} onCancel={hideNewRepositoryDialog} />
+							<RepositoryForm onCreateRepo={createRepo} onCancel={hideNewRepositoryDialog} />
 						</div>
 						<div className="pt-dialog-footer">
 								<div className="pt-dialog-footer-actions">
