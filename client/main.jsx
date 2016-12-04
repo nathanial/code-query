@@ -39,7 +39,10 @@ const RepositoryOverviewNavbarContainer = createContainer((props) => {
 	return {
 		repository: Repositories.findOne({_id: props.params.id}),
 		onGoBack: gotoRepositoryList,
-		onDelete: removeRepository
+		onDelete: (repo) => {
+			removeRepository(repo);
+			gotoRepositoryList();
+		}
 	};
 }, RepositoryOverviewNavbar);
 

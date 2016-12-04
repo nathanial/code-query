@@ -7,7 +7,6 @@ export const appState = observable({
 });
 
 export const addRepository = action(() => {
-	console.log("BONGO DRUM");
 	appState.showNewRepositoryDialog = true;
 });
 
@@ -16,6 +15,7 @@ export const hideNewRepositoryDialog = action(() => {
 });
 
 export const createRepo = action((repositoryInfo) => {
+	console.log("REPO INFO", repositoryInfo);
 	Repositories.insert(repositoryInfo);
 	appState.showNewRepositoryDialog = false;
 });

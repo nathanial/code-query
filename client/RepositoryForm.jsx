@@ -36,13 +36,14 @@ export class RepositoryForm extends React.Component {
 		);
 	}
 
-	_onChange = () => {
-		this.setState({
-			repo: _.extend({}, this.state.repo, {
-				url: this.urlInput.value
-			})
+	_onChange = (event) => {
+		const newRepoInfo = _.extend({}, this.state.repo, {
+			url: event.target.value
 		});
-		this.props.onChange(this.state);
+		this.setState({
+			repo: newRepoInfo
+		});
+		this.props.onChange(newRepoInfo);
 	};
 }
 
@@ -56,7 +57,7 @@ export class RepositoryFormButtons extends React.Component {
 	render(){
 		return (
 			<div>
-				<Button iconName="pt-icon-add" text="Create Repo" intent={Intent.SUCCESS}
+				<Button iconName="pt-icon-add" text="Add Repository" intent={Intent.SUCCESS}
 								style={{marginRight: 10}} onClick={this.props.onCreateRepo} />
 				<Button text="Cancel" onClick={this.props.onCancel} />
 			</div>

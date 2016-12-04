@@ -19,16 +19,16 @@ export class AddRepositoryDialog extends React.Component {
 
 	render(){
 		return (
-			<Dialog	iconName="inbox"
+			<Dialog	iconName="add"
 							isOpen={this.props.isOpen}
-							onClose={this.props.onCancel}
-							title="Dialog Header">
+							onClose={() => this.props.onCancel()}
+							title="Add Repository">
 					<div className="pt-dialog-body">
 						<RepositoryForm repositoryInfo={this.state.repo} onChange={this._onChange} />
 					</div>
 					<div className="pt-dialog-footer">
 						<RepositoryFormButtons onCreateRepo={() => this.props.onCreateRepo(this.state.repo)}
-																		onCancel={this.props.onCancel} />
+																		onCancel={() => this.props.onCancel()} />
 					</div>
 			</Dialog>
 		);
